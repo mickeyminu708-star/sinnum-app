@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SinNum App</title>
+    <style>
+        body { background: #0f172a; color: #fff; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: height: 100vh; margin: 0; padding: 20px; }
+        h1 { color: #38bdf8; }
+        .calc { background: #1e293b; padding: 20px; border-radius: 12px; width: 100%; max-width: 320px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        #disp { width: 100%; height: 50px; background: #0f172a; color: #fff; font-size: 1.8rem; text-align: right; border: 2px solid #334155; border-radius: 8px; margin-bottom: 15px; padding: 0 10px; }
+        .keys { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        button { padding: 15px; font-size: 1.2rem; font-weight: bold; background: #334155; color: #fff; border: none; border-radius: 8px; cursor: pointer; }
+        button.eq { background: #10b981; grid-column: span 2; }
+        button.op { background: #0284c7; }
+    </style>
+</head>
+<body>
+    <h1>SinNum App</h1>
+    <div class="calc">
+        <input type="text" id="disp" readonly value="0">
+        <div class="keys">
+            <button onclick="document.getElementById('disp').value='0'">C</button>
+            <button onclick="val('(')">(</button>
+            <button onclick="val(')')">)</button>
+            <button class="op" onclick="val('/')">÷</button>
+            <button onclick="val('7')">7</button>
+            <button onclick="val('8')">8</button>
+            <button onclick="val('9')">9</button>
+            <button class="op" onclick="val('*')">×</button>
+            <button onclick="val('4')">4</button>
+            <button onclick="val('5')">5</button>
+            <button onclick="val('6')">6</button>
+            <button class="op" onclick="val('-')">-</button>
+            <button onclick="val('1')">1</button>
+            <button onclick="val('2')">2</button>
+            <button onclick="val('3')">3</button>
+            <button class="op" onclick="val('+')">+</button>
+            <button onclick="val('0')">0</button>
+            <button onclick="val('.')">.</button>
+            <button class="eq" onclick="calc()">=</button>
+        </div>
+    </div>
+    <script>
+        function val(v) { let d = document.getElementById('disp'); d.value = d.value === '0' ? v : d.value + v; }
+        function calc() { let d = document.getElementById('disp'); try { d.value = eval(d.value.replace('×','*').replace('÷','/')); } catch(e) { d.value='Error'; setTimeout(()=>d.value='0',1500); } }
+    </script>
+</body>
+</html>
