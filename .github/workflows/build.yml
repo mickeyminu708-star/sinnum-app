@@ -1,20 +1,40 @@
-name: Build APK
-on: workflow_dispatch
+name: Build SinNum APK
+
+on:
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - run: unzip -q SinNum-android.zip
-      - uses: actions/setup-java@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
-          distribution: temurin
-          java-version: 17
-      - uses: gradle/actions/setup-gradle@v3
-        with:
-          gradle-version: 8.7
-      - run: gradle -p SinNum :app:assembleDebug
-      - uses: actions/upload-artifact@v4
+          channel: stable
+
+      - name: Create Android project
+        run: flutter create --project-name sinnum --org com.dls --platforms=android build_sinnum
+
+      - name: Copy SinNum app files
+        run: |
+          cp pubspec.yaml build_sinnum/pubspec.yaml
+          cp main.dart build_sinnum/lib/main.dart
+          cp lib/CryptoEngine.dart build_sinnum/lib/CryptoEngine.dart
+          cp lib/DatabaseEngine.dart build_sinnum/lib/DatabaseEngine.dart
+          cp lib/MeshEngine.dart build_sinnum/lib/MeshEngine.dart
+
+      - name: Build APK
+        working-directory: build_sinnum
+        run: |
+          flutter pub get
+          flutter build apk --debug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
         with:
           name: SinNum-debug-apk
-          path: SinNum/app/build/outputs/apk/debug/app-debug.apk
+          path: build_sinnum/build/app/outputs/flutter-apk/app-debug.apk
