@@ -22,7 +22,7 @@ jobs:
       - name: Copy SinNum app files
         run: |
           cp pubspec.yaml build_sinnum/pubspec.yaml
-          cp main.dart build_sinnum/lib/main.dart
+          cp lib/main.dart build_sinnum/lib/main.dart
           cp lib/CryptoEngine.dart build_sinnum/lib/CryptoEngine.dart
           cp lib/DatabaseEngine.dart build_sinnum/lib/DatabaseEngine.dart
           cp lib/MeshEngine.dart build_sinnum/lib/MeshEngine.dart
